@@ -1,0 +1,66 @@
+<mvc:View
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    controllerName="Api.controller.ProductDetails"
+    displayBlock="true">
+    <Page 
+        title="Detalhes do Produto"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+        <headerContent>
+            <Button
+                id="editButton"
+                icon="sap-icon://edit"
+                text="Editar"
+                press="onEdit" />
+            <Button
+                id="deleteButton"
+                icon="sap-icon://delete"
+                text="Excluir"
+                press="onDelete" />
+        </headerContent>
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <f:SimpleForm
+                    id="productForm"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    emptySpanXL="0"
+                    emptySpanL="0"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="1"
+                    columnsL="1"
+                    columnsM="1">
+                    <f:content>
+                        <Label text="ID" />
+                        <Text text="{product>/id}" />
+                        
+                        <Label text="Título" />
+                        <Text text="{product>/title}" />
+                        
+                        <Label text="Descrição" />
+                        <Text text="{product>/description}" />
+                        
+                        <Label text="Preço" />
+                        <ObjectNumber
+                            number="{product>/price}"
+                            unit="R$"
+                            state="Success" />
+                        
+                        <Label text="Data de Criação" />
+                        <Text text="{
+                            path: 'product>/createdAt',
+                            formatter: '.formatter.formatDate'
+                        }" />
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

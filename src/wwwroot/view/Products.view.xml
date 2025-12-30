@@ -1,0 +1,108 @@
+<mvc:View
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    controllerName="Api.controller.Products"
+    displayBlock="true">
+    <Page 
+        title="{i18n>productsTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+        <headerContent>
+            <Button
+                id="createButton"
+                icon="sap-icon://add"
+                text="{i18n>createButtonText}"
+                press="onCreateProduct" />
+        </headerContent>        
+        <content>
+            <HBox >
+                <SearchField 
+                    id="searchField"
+                    placeholder="{i18n>searchPlaceholder}" 
+                    search="onSearchProducts" 
+                    width="300px" />
+                <Button press="onSearchReset" icon="sap-icon://reset" />
+            </HBox>
+
+            <Toolbar>
+                <Label text="{i18n>productsToolbarLabel}" />
+                <Select
+                    id="sortSelect"
+                    selectedKey="{pagination>/filterBy}"
+                    change="onSortChange">
+                    <items>
+                        <core:Item key="id" text="{i18n>productsFilterAll}" />
+                        <core:Item key="title" text="{i18n>productsFilterTitle}" />
+                        <core:Item key="price" text="{i18n>productsFilterPrice}" />
+                    </items>
+                </Select>
+
+                <Label text="{i18n>productsSortLabel}" />
+                <Select
+                    id="orderSelect"
+                    selectedKey="{pagination>/orderBy}"
+                    change="onOrderChange">
+                    <items>
+                        <core:Item key="asc" text="{i18n>productsSortAsc}" />
+                        <core:Item key="desc" text="{i18n>productsSortDesc}" />
+                    </items>
+                </Select>
+
+                <ToolbarSpacer />
+
+                <Label text="{i18n>productsItemsPerPage}" />
+                <Select
+                    id="pageSizeSelect"
+                    selectedKey="{pagination>/pageSize}"
+                    change="onPageSizeChange">
+                    <items>
+                        <core:Item key="5" text="5" />
+                        <core:Item key="10" text="10" />
+                        <core:Item key="20" text="20" />
+                        <core:Item key="50" text="50" />
+                    </items>
+                </Select>
+            </Toolbar>
+
+            <List
+                id="productsList"
+                items="{products>/}"
+                headerText="{i18n>productsListHeader}">
+                <StandardListItem
+                    title="{products>title}"
+                    description="{products>description}"
+                    info="R$ {products>price}"
+                    highlight="Information"
+                    press="onProductDetail"
+                    type="Navigation"/>
+            </List>
+
+            <Toolbar>
+                <Button
+                    icon="sap-icon://close-command-field"
+                    press="onFirstPage"
+                    enabled="{= ${pagination>/currentPage} > 1}" />
+                <Button
+                    icon="sap-icon://navigation-left-arrow"
+                    press="onPreviousPage"
+                    enabled="{= ${pagination>/currentPage} > 1}" />
+
+                <Text text="{pagination>/currentPage} / {pagination>/totalPages}" />
+                
+                <Button
+                    icon="sap-icon://navigation-right-arrow"
+                    press="onNextPage"
+                    enabled="{= ${pagination>/currentPage} &lt; ${pagination>/totalPages}}" />
+                <Button
+                    icon="sap-icon://open-command-field"
+                    press="onLastPage"
+                    enabled="{= ${pagination>/currentPage} &lt; ${pagination>/totalPages}}" />
+
+                <ToolbarSpacer />
+                
+                <Text text="Total: {pagination>/totalItems}" />
+            </Toolbar>
+        </content>
+    </Page>
+</mvc:View>

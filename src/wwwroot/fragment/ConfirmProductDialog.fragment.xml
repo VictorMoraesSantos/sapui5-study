@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+ xmlns="sap.m" 
+ xmlns:core="sap.ui.core">
+    <Dialog
+        title="Confirmar Exclusão"
+        type="Message"
+        state="Warning">
+        <content>
+            <Text id="confirmText" text="{confirm>/confirmMessage}" />
+        </content>
+        <beginButton>
+            <Button
+                text="Confirmar"
+                type="Emphasized"
+                press=".onConfirm" />
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancelar"
+                press=".onCancel" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

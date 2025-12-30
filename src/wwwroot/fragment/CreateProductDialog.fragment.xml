@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+    <Dialog
+        title="Criar Produto"
+        contentWidth="500px"
+        type="Message">
+        <content>
+            <f:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                emptySpanXL="0"
+                emptySpanL="0"
+                emptySpanM="0"
+                emptySpanS="0" 
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1">
+                <f:content>
+                    <Label text="Título" />
+                    <Input value="{product>/title}" />
+                    
+                    <Label text="Descrição" />
+                    <TextArea
+                        value="{product>/description}"
+                        rows="4" />
+                    
+                    <Label text="Preço" />
+                    <Input
+                        value="{product>/price}"
+                        type="Number" />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <beginButton>
+            <Button
+                text="Salvar"
+                type="Emphasized"
+                press="onSaveCreate" />
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancelar"
+                press="onCancelCreate" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

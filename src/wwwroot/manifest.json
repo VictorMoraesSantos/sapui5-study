@@ -1,0 +1,98 @@
+﻿{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "Api",
+    "type": "application",
+    "title": "Minha Aplicação",
+    "description": "Aplicação SAPUI5 com .NET Backend",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/api/",
+        "type": "JSON"
+      }
+    },
+    "i18n": "i18n/i18n.properties"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "rootView": {
+      "viewName": "Api.view.App",
+      "type": "XML",
+      "id": "app",
+      "async": true
+    },
+    "dependencies": {
+      "minUI5Version": "1.60.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "Api.i18n.i18n",
+          "supportedLocales": ["en", "es", "pt-BR"],
+          "fallbackLocale": ""
+        }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "Api.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "home",
+          "target": "home"
+        },
+        {
+          "pattern": "products",
+          "name": "products",
+          "target": "products"
+        },
+        {
+          "pattern": "product/{id}",
+          "name": "productDetails",
+          "target": "productDetails"
+        }
+      ],
+      "targets": {
+        "home": {
+          "viewName": "App",
+          "viewLevel": 1
+        },
+        "products": {
+          "viewName": "Products",
+          "viewLevel": 2
+        },
+        "productDetails": {
+          "viewName": "ProductDetails",
+          "viewLevel": 3
+        }
+      }
+    }
+  }
+}
