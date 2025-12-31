@@ -26,6 +26,9 @@ sap.ui.define(
         let oViewModel = this.getView().getModel("login");
         let sUserName = oViewModel.getProperty("/username");
         let sPassword = oViewModel.getProperty("/password");
+
+        oViewModel.setProperty("/errorMessage", "");
+
         if (!sUserName || !sPassword) {
           oViewModel.setProperty(
             "/errorMessage",
@@ -44,15 +47,23 @@ sap.ui.define(
             password: sPassword,
           }),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
           .then((data) => {
+            localStorage.setItem("authToken", data.token);
+
             let oAuthModel = this.getOwnerComponent().getModel("auth");
             oAuthModel.setProperty("/isAuthenticated", true);
             oAuthModel.setProperty("/username", data.username);
             oAuthModel.setProperty("/email", data.email);
             oAuthModel.setProperty("/token", data.token);
 
-            localStorage.setItem("authToken", data.token);
+            oViewModel.setProperty("/username", "");
+            oViewModel.setProperty("/password", "");
 
             this.getOwnerComponent().getRouter().navTo("home", {}, true);
           })

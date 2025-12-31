@@ -9,6 +9,8 @@
       },
 
       init: function () {
+        UIComponent.prototype.init.apply(this, arguments);
+
         let oAuthModel = new JSONModel({
           isAuthenticated: false,
           userName: null,
@@ -19,17 +21,16 @@
 
         this._checkExistingAuth();
 
-        UIComponent.prototype.init.apply(this, arguments);
-
         let oRouter = this.getRouter();
-        oRouter.attachBeforeRouteMatched(this._onBeforeRouteMatched, this);
+        oRouter.attachRouteMatched(this._onBeforeRouteMatched, this);
         oRouter.initialize();
       },
 
       _checkExistingAuth: function () {
         let sToken = localStorage.getItem("authToken");
+        let oAuthModel = this.getModel("auth");
+
         if (sToken) {
-          let oAuthModel = this.getModel("auth");
           oAuthModel.setProperty("/isAuthenticated", true);
           oAuthModel.setProperty("/token", sToken);
         }
@@ -39,11 +40,13 @@
         let oAuthModel = this.getModel("auth");
         let bIsAuthenticated = oAuthModel.getProperty("/isAuthenticated");
         let sRouteName = oEvent.getParameter("name");
-        let aPublicRoutes = ["login", "register", "home"];
+
         let aProtectedRoutes = ["products", "productDetails"];
+
         if (aProtectedRoutes.indexOf(sRouteName) !== -1 && !bIsAuthenticated) {
           oEvent.preventDefault();
           this.getRouter().navTo("login", {}, true);
+          return;
         }
       },
 

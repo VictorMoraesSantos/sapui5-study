@@ -91,7 +91,7 @@
       ],
       "targets": {
         "home": {
-          "viewName": "App",
+          "viewName": "Home",
           "viewLevel": 1
         },
         "login": {

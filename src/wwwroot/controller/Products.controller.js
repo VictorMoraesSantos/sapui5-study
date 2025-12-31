@@ -13,7 +13,7 @@ sap.ui.define(
       onInit: function () {
         this._initializeModels();
 
-        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        let oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         oRouter
           .getRoute("products")
           .attachPatternMatched(this._onRouteMatched, this);
@@ -36,8 +36,15 @@ sap.ui.define(
       },
 
       _onRouteMatched: function () {
+        let oComponent = this.getOwnerComponent();
+        let oAuthModel = oComponent.getModel("auth");
+        let bIsAuthenticated = oAuthModel.getProperty("/isAuthenticated");
+
+        if (!bIsAuthenticated) {
+          return;
+        }
+
         this._loadProducts();
-        sap.m.MessageToast.show("Produtos carregados com sucesso");
       },
 
       _updateModels: function (oData) {
