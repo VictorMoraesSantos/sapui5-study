@@ -44,16 +44,17 @@ sap.ui.define(
             password: sPassword,
           }),
         })
-          .then((response) => {
-            let data = response.json();
-            if (response.ok) {
-              let oAuthModel = this.getOwnerComponent().getModel("auth");
-              oAuthModel.setProperty("/isAuthenticated", true);
-              oAuthModel.setProperty("/username", data.username);
-              oAuthModel.setProperty("/email", data.email);
-              oAuthModel.setProperty("/token", data.token);
-              localStorage.setItem("authToken", data.token);
-            }
+          .then((response) => response.json())
+          .then((data) => {
+            let oAuthModel = this.getOwnerComponent().getModel("auth");
+            oAuthModel.setProperty("/isAuthenticated", true);
+            oAuthModel.setProperty("/username", data.username);
+            oAuthModel.setProperty("/email", data.email);
+            oAuthModel.setProperty("/token", data.token);
+
+            localStorage.setItem("authToken", data.token);
+
+            this.getOwnerComponent().getRouter().navTo("home", {}, true);
           })
           .catch((error) => {
             oViewModel.setProperty(

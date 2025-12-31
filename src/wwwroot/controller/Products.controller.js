@@ -4,25 +4,33 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
-    "Api/model/productModels",
+    "Api/model/ProductsService",
   ],
-  function (Controller, JSONModel, MessageToast, Fragment, productModels) {
+  function (Controller, JSONModel, MessageToast, Fragment, ProductsService) {
     "use strict";
 
     return Controller.extend("Api.controller.Products", {
       onInit: function () {
+        this._initializeModels();
+
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         oRouter
           .getRoute("products")
           .attachPatternMatched(this._onRouteMatched, this);
+      },
 
-        let oPaginationModel = new JSONModel({
+      _initializeModels: function () {
+        const oProductsModel = new JSONModel([]);
+        this.getView().setModel(oProductsModel, "products");
+
+        const oPaginationModel = new JSONModel({
           totalItems: 0,
           totalPages: 1,
           currentPage: 1,
-          pageSize: 5,
-          filterBy: "id",
-          orderBy: "asc",
+          pageSize: null,
+          filterBy: null,
+          orderBy: null,
+          filterContains: "",
         });
         this.getView().setModel(oPaginationModel, "pagination");
       },
@@ -32,15 +40,35 @@ sap.ui.define(
         sap.m.MessageToast.show("Produtos carregados com sucesso");
       },
 
+      _updateModels: function (oData) {
+        const oProductsModel = this.getView().getModel("products");
+        oProductsModel.setData(oData.items || []);
+
+        const oPaginationModel = this.getView().getModel("pagination");
+        oPaginationModel.setProperty("/totalItems", oData.totalItems);
+        oPaginationModel.setProperty("/totalPages", oData.totalPages);
+        oPaginationModel.setProperty("/currentPage", oData.currentPage);
+        oPaginationModel.setProperty("/pageSize", oData.pageSize);
+      },
+
       _loadProducts: function () {
         let oPaginationModel = this.getView().getModel("pagination");
-        productModels.loadProducts(
-          this.getView(),
-          oPaginationModel.getProperty("/filterBy"),
-          oPaginationModel.getProperty("/orderBy"),
-          oPaginationModel.getProperty("/currentPage"),
-          oPaginationModel.getProperty("/pageSize")
-        );
+        let oParams = oPaginationModel.getData();
+
+        ProductsService.getProducts(
+          oParams.filterBy,
+          oParams.orderBy,
+          oParams.currentPage,
+          oParams.pageSize,
+          oParams.filterContains
+        )
+          .then((oData) => {
+            this._updateModels(oData);
+            MessageToast.show("Produtos carregados com sucesso");
+          })
+          .catch((oError) => {
+            MessageToast.show("Erro ao carregar produtos: " + oError.message);
+          });
       },
 
       onNavBack: function () {
@@ -62,9 +90,12 @@ sap.ui.define(
           description: "",
           price: 0,
         });
-
         this.getView().setModel(oNewProductModel, "product");
 
+        this._openCreateDialog();
+      },
+
+      _openCreateDialog: function () {
         if (!this._pCreateDialog) {
           this._pCreateDialog = Fragment.load({
             id: this.getView().getId(),
@@ -81,39 +112,41 @@ sap.ui.define(
       },
 
       onSaveCreate: function () {
-        let oModel = this.getView().getModel("product");
-        let oNewProduct = oModel.getData();
-        productModels.createProduct(oNewProduct).then(() => {
-          productModels.loadProducts(this.getView());
+        const oModel = this.getView().getModel("product");
+        const oNewProduct = oModel.getData();
+
+        ProductsService.createProduct(oNewProduct).then(() => {
           MessageToast.show("Produto criado com sucesso");
-          this._pCreateDialog.then((oDialog) => {
-            oDialog.close();
-          });
+          this._loadProducts();
+          this._closeCreateDialog();
         });
       },
 
-      onCancelCreate: function () {
+      _closeCreateDialog: function () {
         this._pCreateDialog.then((oDialog) => {
           oDialog.close();
         });
       },
 
+      onCancelCreate: function () {
+        this._closeCreateDialog();
+      },
+
       onSearchProducts: function (oEvent) {
-        let sQuery = oEvent.getSource().getValue();
-
-        if (!sQuery || sQuery.trim() === "") {
-          productModels.loadProducts(this.getView());
-          return;
-        }
-
-        productModels.searchProducts(this.getView(), sQuery);
-        MessageToast.show("Buscando produtos...");
+        const sQuery = oEvent.getSource().getValue();
+        const oPaginationModel = this.getView().getModel("pagination");
+        oPaginationModel.setProperty("/filterContains", sQuery);
+        oPaginationModel.setProperty("/currentPage", 1);
+        this._loadProducts();
       },
 
       onSearchReset: function () {
-        var oInput = this.byId("searchField");
+        let oInput = this.byId("searchField");
         oInput.setValue("");
-        productModels.loadProducts(this.getView());
+        const oPaginationModel = this.getView().getModel("pagination");
+        oPaginationModel.setProperty("/filterContains", "");
+        oPaginationModel.setProperty("/currentPage", 1);
+        this._loadProducts();
       },
 
       onFirstPage: function () {

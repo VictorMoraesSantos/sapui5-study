@@ -12,11 +12,11 @@ namespace sapui_study.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -41,50 +41,48 @@ namespace sapui_study.Controllers
         }
 
         [HttpGet("query")]
-        public async Task<IActionResult> GetProducts([FromQuery] string filterBy = "id", [FromQuery] string orderBy = "asc", [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetProducts([FromQuery] QueryFilter queryFilter)
         {
-            var totalItems = await _context.Products.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
             IQueryable<Product> query = _context.Products;
 
-            query = filterBy.ToLower() switch
+            if (!string.IsNullOrWhiteSpace(queryFilter.FilterContains))
             {
-                "title" => orderBy.ToLower() == "asc"
+                query = query.Where(p =>
+                    p.Title.Contains(queryFilter.FilterContains) ||
+                    p.Description.Contains(queryFilter.FilterContains));
+            }
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)queryFilter.PageSize);
+
+            query = queryFilter.FilterBy.ToLower() switch
+            {
+                "title" => queryFilter.OrderBy.ToLower() == "asc"
                     ? query.OrderBy(p => p.Title)
                     : query.OrderByDescending(p => p.Title),
-                "price" => orderBy.ToLower() == "asc"
+                "price" => queryFilter.OrderBy.ToLower() == "asc"
                     ? query.OrderBy(p => p.Price)
                     : query.OrderByDescending(p => p.Price),
-                _ => orderBy.ToLower() == "asc"
+                _ => queryFilter.OrderBy.ToLower() == "asc"
                     ? query.OrderBy(p => p.Id)
                     : query.OrderByDescending(p => p.Id)
             };
 
             var products = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Skip((queryFilter.Page - 1) * queryFilter.PageSize)
+                .Take(queryFilter.PageSize)
                 .ToListAsync();
 
             var response = new
             {
                 TotalItems = totalItems,
                 TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
+                CurrentPage = queryFilter.Page,
+                PageSize = queryFilter.PageSize,
                 Items = products
             };
 
             return Ok(response);
-        }
-
-        [HttpGet("filter")]
-        public async Task<IActionResult> GetProductsByFilter([FromQuery] string filter)
-        {
-            var products = await _context.Products
-                .Where(p => p.Title.Contains(filter))
-                .ToListAsync();
-            return Ok(products);
         }
 
         [HttpPost]

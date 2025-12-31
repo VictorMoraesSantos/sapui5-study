@@ -28,7 +28,7 @@
                         id="usernameInput"
                         placeholder="Enter your username"
                         class="sapUiSmallMarginBottom"
-                        value="{/username}"
+                        value="{login>/username}"
                     />
 
                     <Label
@@ -40,7 +40,7 @@
                         type="Password"
                         placeholder="Enter your password"
                         class="sapUiSmallMarginBottom"
-                        value="{/password}"
+                        value="{login>/password}"
                         submit="onLogin"
                     />
 
@@ -53,9 +53,9 @@
                     />
 
                     <Text
-                        text="{/errorMessage}"
+                        text="{login>/errorMessage}"
                         class="sapUiSmallMarginTop"
-                        visible="{= ${/errorMessage} !== '' }"
+                        visible="{= ${login>/errorMessage} !== '' }"
                         textAlign="Center"
                     />
                 </VBox>
