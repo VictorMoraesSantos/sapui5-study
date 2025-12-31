@@ -69,6 +69,16 @@
           "target": "home"
         },
         {
+          "pattern": "login",
+          "name": "login",
+          "target": "login"
+        },
+        {
+          "pattern": "register",
+          "name": "register",
+          "target": "register"
+        },
+        {
           "pattern": "products",
           "name": "products",
           "target": "products"
@@ -82,6 +92,14 @@
       "targets": {
         "home": {
           "viewName": "App",
+          "viewLevel": 1
+        },
+        "login": {
+          "viewName": "Login",
+          "viewLevel": 1
+        },
+        "register": {
+          "viewName": "Register",
           "viewLevel": 1
         },
         "products": {

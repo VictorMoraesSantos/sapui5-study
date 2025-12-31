@@ -1,0 +1,65 @@
+<mvc:View
+    controllerName="Api.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true"
+>
+    <Page title="Login">
+        <content>
+            <VBox
+                alignItems="Center"
+                justifyContent="Center"
+                class="sapUiSmallMargin"
+            >
+                <VBox
+                    width="400px"
+                    class="sapUiSmallMargin"
+                >
+                    <Title
+                        text="Autenticação"
+                        class="sapUiSmallMargin"
+                    />
+
+                    <Label
+                        text="Username"
+                        labelFor="usernameInput"
+                    />
+                    <Input
+                        id="usernameInput"
+                        placeholder="Enter your username"
+                        class="sapUiSmallMarginBottom"
+                        value="{/username}"
+                    />
+
+                    <Label
+                        text="Password"
+                        labelFor="passwordInput"
+                    />
+                    <Input
+                        id="passwordInput"
+                        type="Password"
+                        placeholder="Enter your password"
+                        class="sapUiSmallMarginBottom"
+                        value="{/password}"
+                        submit="onLogin"
+                    />
+
+                    <Button
+                        text="Entrar"
+                        press="onLogin"
+                        class="sapUiSmallMarginTop"
+                        width="100%"
+                        type="Emphasized"
+                    />
+
+                    <Text
+                        text="{/errorMessage}"
+                        class="sapUiSmallMarginTop"
+                        visible="{= ${/errorMessage} !== '' }"
+                        textAlign="Center"
+                    />
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
