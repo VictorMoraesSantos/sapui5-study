@@ -1,10 +1,10 @@
 <mvc:View
-    controllerName="Api.controller.Login"
+    controllerName="Api.controller.Register"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     displayBlock="true"
 >
-    <Page title="Login">
+    <Page title="Register">
         <content>
             <VBox
                 alignItems="Center"
@@ -16,55 +16,57 @@
                     class="sapUiSmallMargin"
                 >
                     <Title
-                        text="Login"
+                        text="Registro"
                         class="sapUiSmallMargin"
                     />
 
                     <Label
                         text="Username"
-                        labelFor="usernameInput"
+                        labelFor="usernameInputRegister"
                     />
                     <Input
-                        id="usernameInput"
+                        id="usernameInputRegister"
                         placeholder="Enter your username"
                         class="sapUiSmallMarginBottom"
-                        value="{login>/username}"
+                        value="{register>/username}"
+                    />
+
+                    <Label
+                        text="Email"
+                        labelFor="emailInputRegister"
+                    />
+                    <Input
+                        id="emailInputRegister"
+                        placeholder="Enter your email"
+                        class="sapUiSmallMarginBottom"
+                        value="{register>/email}"
                     />
 
                     <Label
                         text="Password"
-                        labelFor="passwordInput"
+                        labelFor="passwordInputRegister"
                     />
                     <Input
-                        id="passwordInput"
+                        id="passwordInputRegister"
                         type="Password"
                         placeholder="Enter your password"
                         class="sapUiSmallMarginBottom"
-                        value="{login>/password}"
-                        submit="onLogin"
+                        value="{register>/password}"
+                        submit="onRegister"
                     />
 
-                    <HBox >
-                        <ToolbarSeparator ></ToolbarSeparator>
-                        <Button
-                            text="Dont have an account? Register"
-                            type="Transparent"
-                            press="onNavigateToRegister"
-                        />
-                    </HBox>
-
                     <Button
-                        text="Entrar"
-                        press="onLogin"
+                        text="Register"
+                        press="onRegister"
                         class="sapUiSmallMarginTop"
                         width="100%"
                         type="Emphasized"
                     />
 
                     <Text
-                        text="{login>/errorMessage}"
+                        text="{register>/errorMessage}"
                         class="sapUiSmallMarginTop"
-                        visible="{= ${login>/errorMessage} !== '' }"
+                        visible="{= ${register>/errorMessage} !== '' }"
                         textAlign="Center"
                     />
                 </VBox>

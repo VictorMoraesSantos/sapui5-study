@@ -74,6 +74,10 @@ sap.ui.define(
             );
           });
       },
+
+      onNavigateToRegister: function () {
+        this.getOwnerComponent().getRouter().navTo("register", {}, true);
+      },
     });
   }
 );
