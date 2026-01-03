@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using sapui_study.Domain.Entities;
 using sapui_study.Infrastructure.Data;
 using sapui_study.Models;
-using System.Threading.Tasks;
 
 namespace sapui_study.Controllers
 {

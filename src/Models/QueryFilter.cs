@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-
-namespace sapui_study.Models
+﻿namespace sapui_study.Models
 {
     public class QueryFilter
     {
