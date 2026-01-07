@@ -52,6 +52,10 @@ sap.ui.define(
             oViewModel.setProperty("/errorMessage", error.message);
           });
       },
+
+      onNavBack: function () {
+        this.getOwnerComponent().getRouter().navTo("login", {}, true);
+      },
     });
   }
 );

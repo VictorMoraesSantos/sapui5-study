@@ -3,22 +3,26 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
     controllerName="Api.controller.ProductDetails"
-    displayBlock="true">
-    <Page 
-        title="Detalhes do Produto"
+    displayBlock="true"
+>
+    <Page
+        title="{i18n>productDetailsTitle}"
         showNavButton="true"
-        navButtonPress="onNavBack">
+        navButtonPress="onNavBack"
+    >
         <headerContent>
             <Button
                 id="editButton"
                 icon="sap-icon://edit"
-                text="Editar"
-                press="onEdit" />
+                text="{i18n>edit}"
+                press="onEdit"
+            />
             <Button
                 id="deleteButton"
                 icon="sap-icon://delete"
-                text="Excluir"
-                press="onDelete" />
+                text="{i18n>delete}"
+                press="onDelete"
+            />
         </headerContent>
         <content>
             <VBox class="sapUiMediumMargin">
@@ -36,28 +40,32 @@
                     emptySpanS="0"
                     columnsXL="1"
                     columnsL="1"
-                    columnsM="1">
+                    columnsM="1"
+                >
                     <f:content>
-                        <Label text="ID" />
+                        <Label text="{i18n>id}" />
                         <Text text="{product>/id}" />
-                        
-                        <Label text="Título" />
+
+                        <Label text="{i18n>title}" />
                         <Text text="{product>/title}" />
-                        
-                        <Label text="Descrição" />
+
+                        <Label text="{i18n>description}" />
                         <Text text="{product>/description}" />
-                        
-                        <Label text="Preço" />
+
+                        <Label text="{i18n>price}" />
                         <ObjectNumber
                             number="{product>/price}"
                             unit="R$"
-                            state="Success" />
-                        
-                        <Label text="Data de Criação" />
-                        <Text text="{
+                            state="Success"
+                        />
+
+                        <Label text="{i18n>creationDate}" />
+                        <Text
+                            text="{
                             path: 'product>/createdAt',
                             formatter: '.formatter.formatDate'
-                        }" />
+                        }"
+                        />
                     </f:content>
                 </f:SimpleForm>
             </VBox>

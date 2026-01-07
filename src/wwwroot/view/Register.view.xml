@@ -4,7 +4,11 @@
     xmlns="sap.m"
     displayBlock="true"
 >
-    <Page title="Register">
+    <Page
+        title="{i18n>registerTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
         <content>
             <VBox
                 alignItems="Center"
@@ -16,28 +20,28 @@
                     class="sapUiSmallMargin"
                 >
                     <Title
-                        text="Registro"
+                        text="{i18n>registerTitle}"
                         class="sapUiSmallMargin"
                     />
 
                     <Label
-                        text="Username"
+                        text="{i18n>registerUsername}"
                         labelFor="usernameInputRegister"
                     />
                     <Input
                         id="usernameInputRegister"
-                        placeholder="Enter your username"
+                        placeholder="{i18n>usernamePlaceholder}"
                         class="sapUiSmallMarginBottom"
                         value="{register>/username}"
                     />
 
                     <Label
-                        text="Email"
+                        text="{i18n>registerEmail}"
                         labelFor="emailInputRegister"
                     />
                     <Input
                         id="emailInputRegister"
-                        placeholder="Enter your email"
+                        placeholder="{i18n>emailPlaceholder}"
                         class="sapUiSmallMarginBottom"
                         value="{register>/email}"
                     />
@@ -56,7 +60,7 @@
                     />
 
                     <Button
-                        text="Register"
+                        text="{i18n>registerButton}"
                         press="onRegister"
                         class="sapUiSmallMarginTop"
                         width="100%"

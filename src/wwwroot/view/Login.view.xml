@@ -4,7 +4,11 @@
     xmlns="sap.m"
     displayBlock="true"
 >
-    <Page title="Login">
+    <Page
+        title="{i18n>loginTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
         <content>
             <VBox
                 alignItems="Center"
@@ -16,51 +20,48 @@
                     class="sapUiSmallMargin"
                 >
                     <Title
-                        text="Login"
+                        text="{i18n>loginTitle}"
                         class="sapUiSmallMargin"
                     />
-
                     <Label
-                        text="Username"
+                        text="{i18n>username}"
                         labelFor="usernameInput"
                     />
                     <Input
                         id="usernameInput"
-                        placeholder="Enter your username"
+                        placeholder="{i18n>usernamePlaceholder}"
                         class="sapUiSmallMarginBottom"
                         value="{login>/username}"
                     />
-
                     <Label
-                        text="Password"
+                        text="{i18n>password}"
                         labelFor="passwordInput"
                     />
                     <Input
                         id="passwordInput"
                         type="Password"
-                        placeholder="Enter your password"
+                        placeholder="{i18n>passwordPlaceholder}"
                         class="sapUiSmallMarginBottom"
                         value="{login>/password}"
                         submit="onLogin"
                     />
-
-                    <HBox >
-                        <ToolbarSeparator ></ToolbarSeparator>
+                    <HBox
+                        justifyContent="End"
+                        width="100%"
+                    >
                         <Button
-                            text="Dont have an account? Register"
+                            text="{i18n>registerPrompt}"
                             type="Transparent"
                             press="onNavigateToRegister"
                         />
                     </HBox>
-
                     <Button
-                        text="Entrar"
+                        text="{i18n>loginButton}"
                         press="onLogin"
                         class="sapUiSmallMarginTop"
                         width="100%"
                         type="Emphasized"
                     />
-
                     <Text
                         text="{login>/errorMessage}"
                         class="sapUiSmallMarginTop"
